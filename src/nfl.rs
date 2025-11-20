@@ -1,3 +1,4 @@
+use chrono::NaiveTime;
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -8,7 +9,7 @@ struct TeamList {
 #[derive(Deserialize, Clone)]
 pub struct Team {
     #[serde(rename = "idTeam")]
-    pub id: String
+    pub id: String,
 }
 
 #[derive(Deserialize)]
@@ -31,7 +32,10 @@ pub struct Game {
 }
 
 pub fn get_team(team: &str) -> Team {
-    let url = format!("https://www.thesportsdb.com/api/v1/json/123/searchteams.php?t={}", team);
+    let url = format!(
+        "https://www.thesportsdb.com/api/v1/json/123/searchteams.php?t={}",
+        team
+    );
 
     let response = reqwest::blocking::get(url).unwrap();
     let body = response.text().unwrap();
@@ -43,11 +47,20 @@ pub fn get_team(team: &str) -> Team {
 pub fn get_next_game(team: &str) -> Game {
     let team_id = get_team(team).id;
 
-    let url = format!("https://www.thesportsdb.com/api/v1/json/123/eventsnext.php?id={}", team_id);
+    let url = format!(
+        "https://www.thesportsdb.com/api/v1/json/123/eventsnext.php?id={}",
+        team_id
+    );
 
     let response = reqwest::blocking::get(url).unwrap();
     let body = response.text().unwrap();
 
     let parsed: GameList = serde_json::from_str(&body).unwrap();
-    parsed.events[0].clone()
+    let mut game = parsed.events[0].clone();
+
+    let parsed_time = NaiveTime::parse_from_str(&game.time, "%H:%M:%S").unwrap();
+    let formatted_time = parsed_time.format("%-I:%M %p").to_string();
+    game.time = formatted_time;
+
+    game
 }
