@@ -3,7 +3,7 @@ mod sportsdb;
 use clap::Parser;
 
 #[derive(Parser)]
-#[command(name = "scorepulse", about = "NFL next game CLI")]
+#[command(name = "scorepulse", about = "Sports next game CLI")]
 struct Args {
     #[arg(long)]
     team: String,
@@ -12,7 +12,7 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    println!("\n\nScorePulse: Next game CLI (work in progress)");
+    println!("\n\nScorePulse: Sports game CLI (work in progress)");
 
     let next_game = sportsdb::get_next_game(&args.team);
     match next_game {
