@@ -12,7 +12,7 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    println!("\n\nScorePulse: NFL next game CLI (work in progress)");
+    println!("\n\nScorePulse: Next game CLI (work in progress)");
 
     let next_game = sportsdb::get_next_game(&args.team);
     match next_game {
