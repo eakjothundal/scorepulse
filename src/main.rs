@@ -14,11 +14,16 @@ fn main() {
 
     println!("\n\nScorePulse: NFL next game CLI (work in progress)");
 
-    println!("\nSelected team: {}", args.team);
-
     let next_game = nfl::get_next_game(&args.team);
-    println!(
-        "Next game: {} vs {} - {} @ {} - {}",
-        next_game.home_team, next_game.away_team, next_game.date, next_game.time, next_game.venue,
-    )
+    match next_game {
+        Some(game) => {
+            println!(
+                "Next game: {} vs {} - {} @ {} - {}",
+                game.home_team, game.away_team, game.date, game.time, game.venue,
+            )
+        }
+        None => {
+            eprintln!("\nNo upcoming games found for this team.");
+        }
+    }
 }
