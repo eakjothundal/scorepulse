@@ -23,7 +23,7 @@ fn main() {
             )
         }
         None => {
-            eprintln!("\nNo upcoming games found for this team.");
+            eprintln!("\nNo upcoming games found for this team.\n");
         }
     }
 }
