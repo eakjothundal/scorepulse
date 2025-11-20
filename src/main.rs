@@ -1,4 +1,4 @@
-mod nfl;
+mod sportsdb;
 
 use clap::Parser;
 
@@ -14,7 +14,7 @@ fn main() {
 
     println!("\n\nScorePulse: NFL next game CLI (work in progress)");
 
-    let next_game = nfl::get_next_game(&args.team);
+    let next_game = sportsdb::get_next_game(&args.team);
     match next_game {
         Some(game) => {
             println!(
